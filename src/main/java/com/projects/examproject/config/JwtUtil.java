@@ -3,10 +3,12 @@ package com.projects.examproject.config;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +17,7 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
-    private String SECRET_KEY = "examportal";
+    private SecretKey SECRET_KEY =  Keys.secretKeyFor(SignatureAlgorithm.HS256);;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -29,14 +31,14 @@ public class JwtUtil {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
+
     private Claims extractAllClaims(String token) {
         return Jwts.parser()
-                .setSigningKey(SECRET_KEY.getBytes()) // convert secret to bytes; or use a SecretKey instance
+                .setSigningKey(SECRET_KEY) // convert secret to bytes; or use a SecretKey instance
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
     }
-
 
     private Boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
