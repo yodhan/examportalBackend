@@ -79,7 +79,7 @@ public class User implements UserDetails {
         this.userRoles.forEach(userRole -> {
             set.add(new Authority(userRole.getRole().getRoleName()));
         });
-        return List.of();
+        return set;
     }
 
     public String getPassword() {

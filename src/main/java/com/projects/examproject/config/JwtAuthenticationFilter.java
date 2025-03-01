@@ -35,11 +35,11 @@ public class JwtAuthenticationFilter  extends OncePerRequestFilter {
         if(requestTokenHeader!=null && requestTokenHeader.startsWith("Bearer")){
             jwtToken= requestTokenHeader.substring(7);
             try{
-                this.jwtUtil.extractUsername(jwtToken);
+                username=this.jwtUtil.extractUsername(jwtToken);
 
             } catch (ExpiredJwtException e){
                 e.printStackTrace();
-                System.out.println("jwt token");
+                System.out.println("jwt token expired");
             }
         }else {
 
