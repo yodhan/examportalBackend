@@ -40,16 +40,16 @@ public class MySecurityConfig {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
-    // Bean for password encoding using BCrypt
-//    @Bean
-//    public BCryptPasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-
+//     Bean for password encoding using BCrypt
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
+
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return NoOpPasswordEncoder.getInstance();
+//    }
 
     // Configure the authentication provider using your custom UserDetailsService
     @Bean
@@ -76,7 +76,7 @@ public class MySecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // Configure URL-based authorization
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/generate-token", "/user/").permitAll()
+                        .requestMatchers("/generate-token", "/user/","user/create-user").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS).permitAll()
                         .anyRequest().authenticated()
                 )
@@ -85,8 +85,8 @@ public class MySecurityConfig {
                         .authenticationEntryPoint(unauthorizedHandler)
                 )
                 // Optionally enable formLogin and HTTP Basic if required
-                .formLogin(Customizer.withDefaults())
-                .httpBasic(Customizer.withDefaults())
+//                .formLogin(Customizer.withDefaults())
+//                .httpBasic(Customizer.withDefaults())
                 // Add the JWT authentication filter before the UsernamePasswordAuthenticationFilter
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
