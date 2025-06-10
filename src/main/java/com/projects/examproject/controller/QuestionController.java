@@ -14,11 +14,13 @@ public class QuestionController {
 
     @Autowired
     private QuestionService questionService;
+    @Autowired
     private QuizService quizService;
 
     @PostMapping("/")
-    public ResponseEntity<Question> addQuestion(@RequestBody Question Question){
-        return ResponseEntity.ok(this.questionService.addQuestion(Question));
+    public ResponseEntity<Question> addQuestion(@RequestBody Question question){
+        System.out.println("📦 Raw question: " + question);
+        return ResponseEntity.ok(this.questionService.addQuestion(question));
     }
 
     @GetMapping("/{QuestionId}")
@@ -46,6 +48,7 @@ public class QuestionController {
     public ResponseEntity<?> getQuestionsOfQuiz(@PathVariable("qid") long qid){
 //        canm furthetr  implement v25  no of questions
         Quiz quiz= this.quizService.getQuiz(qid);
+        System.out.println(quiz);
         return ResponseEntity.ok(this.questionService.getQuestionsOfQuiz(quiz));
 
     }
