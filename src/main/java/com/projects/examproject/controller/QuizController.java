@@ -40,17 +40,17 @@ public class QuizController {
     }
 
     @GetMapping("/active")
-    public ResponseEntity<?> getActiveQuizes(@PathVariable("active")Boolean active){
-        return ResponseEntity.ok(this.QuizService.getActiveQuizes(active));
+    public ResponseEntity<?> getActiveQuizes(){
+        return ResponseEntity.ok(this.QuizService.getActiveQuizes(true));
     }
 
-    @GetMapping("/{categoryId}")
+    @GetMapping("/category/{categoryId}")
     public ResponseEntity<?> getCategoryQuizes(@PathVariable Long categoryId){
         return ResponseEntity.ok(this.QuizService.getQuizesofCategory(categoryId));
 
     }
 
-    @GetMapping("/active/{category}")
+    @GetMapping("/active/category/{category}")
     public ResponseEntity<?> getActiverQuizesOfCategory(@PathVariable Long category){
         return ResponseEntity.ok(this.QuizService.getActiveQuizesOfCategory(category));
     }
